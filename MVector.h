@@ -15,7 +15,7 @@ public:
         if(capacity > max_size())
             throw MVectorCapacityFail();
 
-        rawInit(capacity < kMinCapacity? kMinCapacity: capacity);
+        rawInit(capacity);
     }
 
     MVector(): MVector(0)
@@ -129,7 +129,7 @@ public:
         MVector tmp(*this);
 
         rawClear();
-        rawInit(tmp.size() > kMinCapacity? tmp.size(): kMinCapacity);
+        rawInit(tmp.size());
 
         size_ = tmp.size();
 
@@ -168,7 +168,7 @@ public:
     void assign(size_t n, const T &val)
     {
         rawClear();
-        rawInit(n < kMinCapacity? kMinCapacity: n);
+        rawInit(n);
 
         size_ = n;
 
@@ -214,6 +214,8 @@ private:
 
     void rawInit(size_t capacity)
     {
+        capacity = capacity < kMinCapacity? kMinCapacity: capacity;
+
         size_ = 0;
         capacity_ = capacity;
 
