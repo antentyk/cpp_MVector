@@ -9,8 +9,7 @@ template<typename T>
 class MVector
 {
 public:
-    explicit MVector(size_t capacity):
-        data_(nullptr)
+    explicit MVector(size_t capacity)
     {
         if(capacity > max_size())
             throw MVectorCapacityFail();
@@ -21,8 +20,7 @@ public:
     MVector(): MVector(0)
     {}
 
-    MVector(const MVector &rhs):
-        data_(nullptr)
+    MVector(const MVector &rhs)
     {
         rawInit(rhs.capacity_);
 
@@ -196,7 +194,7 @@ private:
         size_,
         capacity_;
     
-    T* data_;
+    T* data_{nullptr};
 
     void rawClear()
     {
