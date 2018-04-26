@@ -112,6 +112,29 @@ TEST(MVector, frontAndback)
     ASSERT_EQ(v.at(0), 2);
 }
 
+TEST(MVector, shrink_to_fit)
+{
+    MVector<int> a;
+    
+    for(size_t i = 0; i < 100; ++i)
+        a.push_back(i);
+    
+    ASSERT_NE(a.size(), a.capacity());
+    a.shrink_to_fit();
+    ASSERT_EQ(a.size(), a.capacity());
+    for(size_t i = 0; i < 100; ++i)
+        ASSERT_EQ(a.at(i), i);
+
+    MVector<int> b;
+    size_t oldCapacity = b.capacity();
+
+    b.shrink_to_fit();
+
+    size_t newCapacity = b.capacity();
+
+    ASSERT_EQ(oldCapacity, newCapacity);
+}
+
 int main(int argc, char ** argv){
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

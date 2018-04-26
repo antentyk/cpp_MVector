@@ -99,7 +99,7 @@ public:
         size_ = tmp.size();
 
         for(size_t i = 0; i < size_; ++i)
-            data_[i] = tmp[i];
+            data_[i] = tmp.data_[i];
     }
 
     void push_back(const T &val)
@@ -116,6 +116,25 @@ public:
 
         reserve(newCapacity);
         push_back(val);
+    }
+
+    void shrink_to_fit(){
+        if
+        (
+            capacity() == size() || 
+            (size() <= kMinCapacity && capacity() == kMinCapacity)
+        )
+            return;
+
+        MVector tmp(*this);
+
+        rawClear();
+        rawInit(tmp.size() > kMinCapacity? tmp.size(): kMinCapacity);
+
+        size_ = tmp.size();
+
+        for(size_t i = 0; i < tmp.size(); ++i)
+            data_[i] = tmp.data_[i];
     }
 
     bool empty() const{return size_ == 0;}
@@ -145,7 +164,6 @@ public:
         
         return at(size() - 1);
     }
-
 private:
     static const size_t kMinCapacity = 8;
 
