@@ -164,6 +164,31 @@ public:
         
         return at(size() - 1);
     }
+
+    void assign(size_t n, const T &val)
+    {
+        rawClear();
+        rawInit(n < kMinCapacity? kMinCapacity: n);
+
+        size_ = n;
+
+        for(size_t i = 0; i < n; ++i)
+            data_[i] = val;
+    }
+
+    void resize(size_t n, const T &val)
+    {
+        if(n > size_)
+        {
+            reserve(n);
+            for(; n >= 1; --n)
+                data_[size_++] = val;
+            return;
+        }
+
+        while(size_ > n)
+            data_[--size_].~T();
+    }
 private:
     static const size_t kMinCapacity = 8;
 

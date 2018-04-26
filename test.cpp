@@ -135,6 +135,44 @@ TEST(MVector, shrink_to_fit)
     ASSERT_EQ(oldCapacity, newCapacity);
 }
 
+TEST(MVector, assign)
+{
+    MVector<long long> v;
+
+    v.assign(1000, 2);
+    ASSERT_EQ(v.capacity(), 1000);
+    ASSERT_EQ(v.size(), 1000);
+
+    for(size_t i = 0; i < 1000; ++i)
+        ASSERT_EQ(v.at(i), 2);
+    
+    v.assign(0, 1);
+    ASSERT_NE(v.capacity(), 0);
+    ASSERT_EQ(v.size(), 0);
+}
+
+TEST(MVector, resize)
+{
+    MVector<long long> v;
+
+    v.resize(10, 7);
+
+    ASSERT_EQ(v.size(), 10);
+    ASSERT_GE(v.capacity(), 10);
+    for(size_t i = 0; i < 10; ++i)
+        ASSERT_EQ(v.at(i), 7);
+    
+    v.resize(2, 100);
+    ASSERT_EQ(v.size(), 2);
+    ASSERT_GE(v.capacity(), 2);
+    for(size_t i = 0; i < 2; ++i)
+        ASSERT_EQ(v[i], 7);
+    
+    v.resize(0, 0);
+    ASSERT_TRUE(v.empty());
+    ASSERT_GT(v.capacity(), 0);
+}
+
 int main(int argc, char ** argv){
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
